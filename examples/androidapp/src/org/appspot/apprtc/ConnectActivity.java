@@ -356,6 +356,7 @@ public class ConnectActivity extends Activity {
   @SuppressWarnings("StringSplitter")
   private void connectToRoom(String roomId, boolean commandLineRun, boolean loopback,
       boolean useValuesFromIntent, int runTimeMs) {
+    Log.d(TAG, "connectToRoom() called with: roomId = [" + roomId + "], commandLineRun = [" + commandLineRun + "], loopback = [" + loopback + "], useValuesFromIntent = [" + useValuesFromIntent + "], runTimeMs = [" + runTimeMs + "]");
     ConnectActivity.commandLineRun = commandLineRun;
 
     // roomId is random for loopback.
