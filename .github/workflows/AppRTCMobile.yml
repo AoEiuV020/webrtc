@@ -45,7 +45,7 @@ jobs:
         gclient sync
         cd src
         gn gen out/build --args='target_os="android" target_cpu="arm" is_debug=false'
-        sudo ln -s /usr/bin/python2 /usr/bin/python
+        sudo ln -sf /usr/bin/python2 /usr/bin/python
         ninja -C out/build AppRTCMobile
         mv out/build/apks/AppRTCMobile.apk ${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
     - name: Upload APK
