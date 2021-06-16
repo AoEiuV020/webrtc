@@ -47,7 +47,7 @@ jobs:
         gn gen out/build --args='target_os="android" target_cpu="arm" is_debug=false'
         sudo ln -sf /usr/bin/python2 /usr/bin/python
         ninja -C out/build AppRTCMobile
-        mv out/build/apks/AppRTCMobile.apk ${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
+        mv out/build/apks/AppRTCMobile.apk ../${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
     - name: Upload APK
       uses: actions/upload-artifact@master
       with:
