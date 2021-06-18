@@ -71,6 +71,6 @@
 /xcodebuild
 /.vscode
 !webrtc/*
-AppRTC.jks
-AppRTC.jks.txt
+*.jks
+*.jks.txt
 signing.properties
