@@ -47,7 +47,25 @@ jobs:
         gn gen out/build --args='target_os="android" target_cpu="arm" is_debug=false'
         sudo ln -sf /usr/bin/python2 /usr/bin/python
         ninja -C out/build AppRTCMobile
-        mv out/build/apks/AppRTCMobile.apk ../${{ env.BUILD_NAME_WITH_VERSION }}-android.apk
+        signedApk="../${{ env.BUILD_NAME_WITH_VERSION }}-android.apk"
+        unsignedApk="out/build/apks/AppRTCMobile.apk"
+        apksigner="third_party/android_sdk/public/build-tools/29.0.2/apksigner"
+        if test -n "${{ secrets.SIGNING_PROPERTIES }}"
+        then
+            echo "${{ secrets.SIGNING_PROPERTIES }}" > signing.properties
+            . signing.properties
+            if test -n "${{ secrets.SIGNING_KEY }}"
+            then
+                echo "${{ secrets.SIGNING_KEY }}" |base64 -d > "$storeFile"
+                "$apksigner" sign  --ks "$storeFile"  --ks-key-alias $keyAlias --ks-pass "pass:$storePassword"  --key-pass pass:$keyPassword --out "$signedApk" "$unsignedApk"
+            fi
+        fi
+        if test ! -f "$signedApk"
+        then
+            echo 'WARN: useing debug signature,'
+            mv "$unsignedApk" "$signedApk"
+        fi
+        "$apksigner" verify --print-certs "$signedApk"
     - name: Upload APK
       uses: actions/upload-artifact@master
       with:
