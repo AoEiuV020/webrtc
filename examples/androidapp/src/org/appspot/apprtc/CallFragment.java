@@ -98,6 +98,7 @@ public class CallFragment extends Fragment {
         toggleMuteButton.setAlpha(enabled ? 1.0f : 0.3f);
       }
     });
+    toggleMuteButton.setAlpha(PeerConnectionClient.DEFAULT_AUDIO_ENABLE ? 1.0f : 0.3f);
 
     return controlView;
   }

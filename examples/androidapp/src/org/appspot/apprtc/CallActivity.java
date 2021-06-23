@@ -32,11 +32,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
-import java.io.IOException;
-import java.lang.RuntimeException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+
 import org.appspot.apprtc.AppRTCAudioManager.AudioDevice;
 import org.appspot.apprtc.AppRTCAudioManager.AudioManagerEvents;
 import org.appspot.apprtc.AppRTCClient.RoomConnectionParameters;
@@ -60,6 +56,11 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoFileRenderer;
 import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Activity for peer connection call setup, call waiting
@@ -173,7 +174,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   private boolean isError;
   private boolean callControlFragmentVisible = true;
   private long callStartedTimeMs;
-  private boolean micEnabled = true;
+  private boolean micEnabled = PeerConnectionClient.DEFAULT_AUDIO_ENABLE;
   private boolean screencaptureEnabled;
   private static Intent mediaProjectionPermissionResultData;
   private static int mediaProjectionPermissionResultCode;

@@ -89,6 +89,7 @@ public class PeerConnectionClient {
   public static final String VIDEO_TRACK_ID = "ARDAMSv0";
   public static final String AUDIO_TRACK_ID = "ARDAMSa0";
   public static final String VIDEO_TRACK_TYPE = "video";
+  public static final boolean DEFAULT_AUDIO_ENABLE = false;
   private static final String TAG = "PCRTCClient";
   private static final String VIDEO_CODEC_VP8 = "VP8";
   private static final String VIDEO_CODEC_VP9 = "VP9";
@@ -167,7 +168,7 @@ public class PeerConnectionClient {
   @Nullable
   private RtpSender localVideoSender;
   // enableAudio is set to true if audio should be sent.
-  private boolean enableAudio = true;
+  private boolean enableAudio = DEFAULT_AUDIO_ENABLE;
   @Nullable
   private AudioTrack localAudioTrack;
   @Nullable
