@@ -20,6 +20,16 @@ public final class CandidatePairChangeEvent {
   public final int lastDataReceivedMs;
   public final String reason;
 
+  @Override
+  public String toString() {
+    return "CandidatePairChangeEvent{" +
+            "local=" + local +
+            ", remote=" + remote +
+            ", lastDataReceivedMs=" + lastDataReceivedMs +
+            ", reason='" + reason + '\'' +
+            '}';
+  }
+
   @CalledByNative
   CandidatePairChangeEvent(
       IceCandidate local, IceCandidate remote, int lastDataReceivedMs, String reason) {
