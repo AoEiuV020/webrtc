@@ -39,6 +39,7 @@
         android:background="#0f0"
         android:padding="10dp"
         android:text=" R "
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        tools:ignore="HardcodedText" />
 
 </FrameLayout>
