@@ -2,8 +2,7 @@
 
 <!-- tools:ignore is needed because lint thinks this can be replaced with a merge. Replacing this
      with a merge causes the fullscreen SurfaceView not to be centered. -->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,18 +16,29 @@
 
     <org.webrtc.SurfaceViewRenderer
         android:id="@+id/pip_video_view"
-        android:layout_height="144dp"
         android:layout_width="wrap_content"
+        android:layout_height="144dp"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp" />
 
     <FrameLayout
         android:id="@+id/call_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <FrameLayout
         android:id="@+id/hud_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tvRecorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#0f0"
+        android:padding="10dp"
+        android:text=" R "
+        android:textSize="30sp" />
 
 </FrameLayout>

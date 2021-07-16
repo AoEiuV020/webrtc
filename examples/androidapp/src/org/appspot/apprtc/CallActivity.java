@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
@@ -130,6 +131,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
 
   // Peer connection statistics callback period in ms.
   private static final int STAT_CALLBACK_PERIOD = 1000;
+  private View tvRecorder;
+  private boolean recording;
 
   private static class ProxyVideoSink implements VideoSink {
     private VideoSink target;
@@ -204,6 +207,24 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
 
     connected = false;
     signalingParameters = null;
+
+    // recorder
+    tvRecorder = findViewById(R.id.tvRecorder);
+    tvRecorder.setOnClickListener(v -> {
+      if (peerConnectionClient == null) {
+        Toast.makeText(this, "peerConnectionClient is null", Toast.LENGTH_SHORT).show();
+        return;
+      }
+      recording = !recording;
+      if (recording) {
+        v.setBackgroundColor(Color.parseColor("#ff0000"));
+        String path = getExternalFilesDir(null).getAbsolutePath() + "/r" + System.currentTimeMillis() + ".mkv";
+        peerConnectionClient.startRecorder(2, path);
+      } else {
+        v.setBackgroundColor(Color.parseColor("#00ff00"));
+        peerConnectionClient.stopRecorder(2);
+      }
+    });
 
     // Create UI controls.
     pipRenderer = findViewById(R.id.pip_video_view);
