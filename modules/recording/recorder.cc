@@ -168,10 +168,28 @@ void Recorder::openStreams() {
 
         enum AVCodecID audio_codec_id = AV_CODEC_ID_NONE;
         switch (audio_codec_) {
+            case AudioEncoder::CodecType::kOther:
+                audio_codec_id = AV_CODEC_ID_NONE;
+                break;
             case AudioEncoder::CodecType::kOpus:
                 audio_codec_id = AV_CODEC_ID_OPUS;
                 break;
-            default:
+            case AudioEncoder::CodecType::kIsac:
+                // ffmpeg does not support isac,
+                break;
+            case AudioEncoder::CodecType::kPcmA:
+                audio_codec_id = AV_CODEC_ID_PCM_ALAW;
+                break;
+            case AudioEncoder::CodecType::kPcmU:
+                audio_codec_id = AV_CODEC_ID_PCM_MULAW;
+                break;
+            case AudioEncoder::CodecType::kG722:
+                audio_codec_id = AV_CODEC_ID_ADPCM_G722;
+                break;
+            case AudioEncoder::CodecType::kIlbc:
+                audio_codec_id = AV_CODEC_ID_ILBC;
+                break;
+            case AudioEncoder::CodecType::kMaxLoggedAudioCodecTypes:
                 break;
         }
         enum AVCodecID video_codec_id = AV_CODEC_ID_NONE;
