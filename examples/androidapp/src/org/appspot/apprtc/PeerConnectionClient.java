@@ -1157,6 +1157,23 @@ public class PeerConnectionClient {
         return joinString(Arrays.asList(lines), "\r\n", true /* delimiterAtEnd */);
     }
 
+    private String disableOrientation(String sdpDescription) {
+        final String[] lines = sdpDescription.split("\r\n");
+        StringBuilder sb = new StringBuilder();
+        boolean found = false;
+        for (String line : lines) {
+            if (line.contains("urn:3gpp:video-orientation")) {
+                found = true;
+                continue;
+            }
+            sb.append(line).append("\r\n");
+        }
+        if (!found) {
+            Log.w(TAG, "urn:3gpp:video-orientation not found");
+        }
+        return sb.toString();
+    }
+
     private void drainCandidates() {
         if (queuedRemoteCandidates != null) {
             Log.d(TAG, "Add " + queuedRemoteCandidates.size() + " remote candidates");
@@ -1349,6 +1366,7 @@ public class PeerConnectionClient {
                 sdpDescription =
                         preferCodec(sdpDescription, getSdpVideoCodecName(peerConnectionParameters), false);
             }
+            sdpDescription = disableOrientation(sdpDescription);
             final SessionDescription sdp = new SessionDescription(origSdp.type, sdpDescription);
             localSdp = sdp;
             executor.execute(() -> {
