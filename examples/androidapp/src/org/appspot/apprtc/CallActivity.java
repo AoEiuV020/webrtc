@@ -319,10 +319,14 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
 
     screencaptureEnabled = intent.getBooleanExtra(EXTRA_SCREENCAPTURE, false);
     // If capturing format is not specified for screencapture, use screen resolution.
-    if (screencaptureEnabled && videoWidth == 0 && videoHeight == 0) {
+    if (screencaptureEnabled) {
       DisplayMetrics displayMetrics = getDisplayMetrics();
-      videoWidth = displayMetrics.widthPixels;
-      videoHeight = displayMetrics.heightPixels;
+      if (videoWidth == 0 && videoHeight == 0) {
+        videoWidth = displayMetrics.widthPixels;
+        videoHeight = displayMetrics.heightPixels;
+      } else if (videoWidth != 0){
+        videoHeight = (int) (1.0 * videoWidth / displayMetrics.widthPixels * displayMetrics.heightPixels);
+      }
     }
     if (screencaptureEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       // 安卓Q必须要有个特定type的前台服务才能使用屏幕共享，
