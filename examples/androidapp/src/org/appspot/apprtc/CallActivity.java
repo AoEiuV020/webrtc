@@ -324,6 +324,10 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       videoWidth = displayMetrics.widthPixels;
       videoHeight = displayMetrics.heightPixels;
     }
+    if (screencaptureEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      // 安卓Q必须要有个特定type的前台服务才能使用屏幕共享，
+      ScreenRecordingService.start(this);
+    }
     DataChannelParameters dataChannelParameters = null;
     if (intent.getBooleanExtra(EXTRA_DATA_CHANNEL_ENABLED, false)) {
       dataChannelParameters = new DataChannelParameters(intent.getBooleanExtra(EXTRA_ORDERED, true),
@@ -533,6 +537,10 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       logToast.cancel();
     }
     activityRunning = false;
+    if (screencaptureEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      // 安卓Q必须要有个特定type的前台服务才能使用屏幕共享，
+      ScreenRecordingService.stop(this);
+    }
     super.onDestroy();
   }
 
