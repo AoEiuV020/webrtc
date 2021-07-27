@@ -1184,7 +1184,7 @@ public class PeerConnectionClient {
         }
     }
 
-    private void switchCameraInternal() {
+    private void switchCameraInternal(CameraVideoCapturer.CameraSwitchHandler switchEventsHandler) {
         if (videoCapturer instanceof CameraVideoCapturer) {
             if (!isVideoCallEnabled() || isError) {
                 Log.e(TAG,
@@ -1193,15 +1193,15 @@ public class PeerConnectionClient {
             }
             Log.d(TAG, "Switch camera");
             CameraVideoCapturer cameraVideoCapturer = (CameraVideoCapturer) videoCapturer;
-            cameraVideoCapturer.switchCamera(null);
+            cameraVideoCapturer.switchCamera(switchEventsHandler);
         } else {
             Log.d(TAG, "Will not switch camera, video caputurer is not a camera");
         }
     }
 
-    public void switchCamera() {
+    public void switchCamera(CameraVideoCapturer.CameraSwitchHandler switchEventsHandler) {
         sendMessage("switchCamera");
-        executor.execute(this::switchCameraInternal);
+        executor.execute(() -> switchCameraInternal(switchEventsHandler));
     }
 
     public void sendMessage(String message) {

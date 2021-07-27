@@ -43,6 +43,7 @@ import org.appspot.apprtc.PeerConnectionClient.PeerConnectionParameters;
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.Camera2Enumerator;
 import org.webrtc.CameraEnumerator;
+import org.webrtc.CameraVideoCapturer;
 import org.webrtc.EglBase;
 import org.webrtc.FileVideoCapturer;
 import org.webrtc.IceCandidate;
@@ -183,6 +184,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   private static int mediaProjectionPermissionResultCode;
   // True if local view is in the fullscreen renderer.
   private boolean isSwappedFeeds;
+  private boolean isFrontCamera;
 
   // Controls
   private CallFragment callFragment;
@@ -469,6 +471,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
         VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
 
         if (videoCapturer != null) {
+          isFrontCamera = true;
           return videoCapturer;
         }
       }
@@ -482,11 +485,13 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
         VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
 
         if (videoCapturer != null) {
+          isFrontCamera = false;
           return videoCapturer;
         }
       }
     }
 
+    isFrontCamera = false;
     return null;
   }
 
@@ -557,7 +562,18 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   @Override
   public void onCameraSwitch() {
     if (peerConnectionClient != null) {
-      peerConnectionClient.switchCamera();
+      peerConnectionClient.switchCamera(new CameraVideoCapturer.CameraSwitchHandler() {
+        @Override
+        public void onCameraSwitchDone(boolean isFrontCamera) {
+          CallActivity.this.isFrontCamera = isFrontCamera;
+          setSwappedFeeds(isSwappedFeeds);
+        }
+
+        @Override
+        public void onCameraSwitchError(String errorDescription) {
+
+        }
+      });
     }
   }
 
@@ -768,8 +784,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     this.isSwappedFeeds = isSwappedFeeds;
     localProxyVideoSink.setTarget(isSwappedFeeds ? fullscreenRenderer : pipRenderer);
     remoteProxyRenderer.setTarget(isSwappedFeeds ? pipRenderer : fullscreenRenderer);
-    fullscreenRenderer.setMirror(isSwappedFeeds);
-    pipRenderer.setMirror(!isSwappedFeeds);
+    fullscreenRenderer.setMirror(isSwappedFeeds && isFrontCamera);
+    pipRenderer.setMirror(!isSwappedFeeds && isFrontCamera);
   }
 
   // -----Implementation of AppRTCClient.AppRTCSignalingEvents ---------------
@@ -783,6 +799,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     VideoCapturer videoCapturer = null;
     if (peerConnectionParameters.videoCallEnabled) {
       videoCapturer = createVideoCapturer();
+      setSwappedFeeds(isSwappedFeeds);
     }
     peerConnectionClient.createPeerConnection(
         localProxyVideoSink, remoteSinks, videoCapturer, signalingParameters);
