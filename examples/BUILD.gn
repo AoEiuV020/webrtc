@@ -119,6 +119,7 @@ if (is_android) {
       "androidapp/src/org/appspot/apprtc/RecordedAudioToFileController.java",
       "androidapp/src/org/appspot/apprtc/RoomParametersFetcher.java",
       "androidapp/src/org/appspot/apprtc/RtcEventLog.java",
+      "androidapp/src/org/appspot/apprtc/ScreenRecordingService.java",
       "androidapp/src/org/appspot/apprtc/SettingsActivity.java",
       "androidapp/src/org/appspot/apprtc/SettingsFragment.java",
       "androidapp/src/org/appspot/apprtc/TCPChannelClient.java",
@@ -148,6 +149,7 @@ if (is_android) {
       "../sdk/android:video_api_java",
       "../sdk/android:video_java",
       "androidapp/third_party/autobanh:autobanh_java",
+      "//third_party/android_deps:com_android_support_support_compat_java",
       "//third_party/android_deps:com_android_support_support_annotations_java",
     ]
   }

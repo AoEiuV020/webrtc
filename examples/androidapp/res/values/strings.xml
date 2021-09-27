@@ -221,4 +221,6 @@
     <string name="pref_enable_rtceventlog_key">enable_rtceventlog_key</string>
     <string name="pref_enable_rtceventlog_title">Enable RtcEventLog.</string>
     <string name="pref_enable_rtceventlog_default">false</string>
+
+    <string name="screen_sharing">Screen sharing</string>
 </resources>

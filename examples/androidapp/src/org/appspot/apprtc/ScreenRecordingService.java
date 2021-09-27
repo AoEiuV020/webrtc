@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 
 import java.util.Objects;
 
+@RequiresApi(api = Build.VERSION_CODES.Q)
 public class ScreenRecordingService extends Service {
     private static final String channelId = "ScreenSharing";//渠道id
     private static final int notificationId = 132;
@@ -33,7 +34,6 @@ public class ScreenRecordingService extends Service {
         context.stopService(starter);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static Notification createNotification(Context ctx) {
         Notification.Builder builder;
         //第二个参数与channelId对应
@@ -50,7 +50,6 @@ public class ScreenRecordingService extends Service {
         return builder.build();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void createChannel(Context ctx) {
         if (disableChannel(ctx)) return;
         NotificationManager nm = Objects.requireNonNull(ContextCompat.getSystemService(ctx, NotificationManager.class));
