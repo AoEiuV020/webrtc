@@ -1,5 +1,6 @@
 package org.appspot.apprtc;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -17,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.Q)
+@TargetApi(Build.VERSION_CODES.Q)
 public class ScreenRecordingService extends Service {
     private static final String channelId = "ScreenSharing";//渠道id
     private static final int notificationId = 132;
